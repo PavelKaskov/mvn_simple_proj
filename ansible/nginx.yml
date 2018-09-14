@@ -1,0 +1,27 @@
+---
+- hosts: all
+  tasks:
+    - name: update apt cache
+      apt: update_cache=yes
+
+    - name: install nginx
+      apt: name=nginx state=latest
+
+    - name: rm sites-available dir
+      file: path='/etc/nginx/sites-available' state=absent
+
+    - name: rm sites-enabled dir
+      file: path='/etc/nginx/sites-enabled' state=absent
+
+    - name: copy our config file
+      copy:
+        src: ../src/hello.conf
+        dest: /etc/nginx/conf.d
+
+    - name: start nginx
+      service:
+          name: nginx
+          state: started
+
+    - name: reload nginx
+      service: name=nginx state=reloaded

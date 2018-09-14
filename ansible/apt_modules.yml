@@ -1,0 +1,9 @@
+---
+- hosts: all
+  tasks:
+    - name: install items
+      apt: name={{item}} state=latest
+      with_items:
+        - git
+        - wget
+        - mc
